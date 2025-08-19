@@ -1,0 +1,176 @@
+---
+// 服务端调用API示例
+let posts = [];
+let error = null;
+
+try {
+  // 在构建时调用外部API
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=3');
+  if (response.ok) {
+    const data = await response.json();
+    posts = data.map(post => ({
+      id: post.id,
+      title: post.title,
+      excerpt: post.body.substring(0, 120) + '...',
+      content: post.body
+    }));
+  } else {
+    throw new Error(`API调用失败: ${response.status}`);
+  }
+} catch (err) {
+  error = err.message;
+  console.error('获取外部文章失败:', err);
+}
+---
+
+<section class="bg-gray-1 pb-8 pt-20 dark:bg-dark-2 lg:pb-[70px] lg:pt-[120px]">
+  <div class="container">
+    <div class="-mx-4 flex flex-wrap">
+      <div class="w-full px-4">
+        <div class="mx-auto mb-[60px] max-w-[485px] text-center">
+          <span class="mb-2 block text-lg font-semibold text-primary">
+            外部API文章
+          </span>
+          <h2 class="mb-3 text-3xl font-bold leading-[1.2] text-dark dark:text-white sm:text-4xl md:text-[40px]">
+            来自外部API的最新文章
+          </h2>
+          <p class="text-base text-body-color dark:text-dark-6">
+            这些文章通过API从外部数据源获取，展示了Astro中服务端数据获取的能力。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {error ? (
+      <div class="mx-auto max-w-[570px] text-center">
+        <div class="rounded-lg bg-red-50 p-4 text-red-800 dark:bg-red-900 dark:text-red-200">
+          <h3 class="font-semibold">加载失败</h3>
+          <p class="mt-2">{error}</p>
+        </div>
+      </div>
+    ) : (
+      <div class="-mx-4 flex flex-wrap justify-center">
+        {posts.map((post) => (
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3" key={post.id}>
+            <div class="wow fadeInUp group mb-10" data-wow-delay=".1s">
+              <div class="mb-8 overflow-hidden rounded-[5px]">
+                <a href={`#post-${post.id}`} class="block">
+                  <div class="h-48 bg-gradient-to-r from-primary to-blue-600 flex items-center justify-center">
+                    <span class="text-white text-4xl font-bold">#{post.id}</span>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <span class="mb-6 inline-block rounded-[5px] bg-primary px-4 py-0.5 text-center text-xs font-medium leading-loose text-white">
+                  外部API
+                </span>
+                <h3>
+                  <a
+                    href={`#post-${post.id}`}
+                    class="mb-4 inline-block text-xl font-semibold text-dark hover:text-primary dark:text-white sm:text-2xl lg:text-xl xl:text-2xl"
+                  >
+                    {post.title}
+                  </a>
+                </h3>
+                <p class="max-w-[370px] text-base text-body-color dark:text-dark-6">
+                  {post.excerpt}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- 客户端动态加载示例 -->
+    <div class="mt-12 text-center">
+      <button 
+        id="load-more-posts" 
+        class="inline-flex items-center justify-center rounded-md bg-primary px-7 py-3 text-center text-base font-medium text-white hover:bg-blue-dark"
+      >
+        加载更多文章
+      </button>
+      <div id="dynamic-posts" class="mt-8"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 客户端JavaScript - 动态加载更多文章
+  document.addEventListener('DOMContentLoaded', () => {
+    const loadMoreBtn = document.getElementById('load-more-posts');
+    const dynamicPostsContainer = document.getElementById('dynamic-posts');
+    let isLoading = false;
+
+    loadMoreBtn?.addEventListener('click', async () => {
+      if (isLoading) return;
+      
+      isLoading = true;
+      loadMoreBtn.textContent = '加载中...';
+      loadMoreBtn.disabled = true;
+
+      try {
+        // 调用我们创建的API路由
+        const response = await fetch('/api/posts');
+        const result = await response.json();
+
+        if (result.success) {
+          const postsHTML = result.data.map(post => `
+            <div class="mb-6 rounded-lg bg-white p-6 shadow-md dark:bg-dark">
+              <h4 class="mb-2 text-lg font-semibold text-dark dark:text-white">
+                ${post.title}
+              </h4>
+              <p class="text-body-color dark:text-dark-6">
+                ${post.excerpt}
+              </p>
+              <div class="mt-3 text-sm text-gray-500">
+                作者: ${post.author} | 发布时间: ${new Date(post.publishDate).toLocaleDateString('zh-CN')}
+              </div>
+            </div>
+          `).join('');
+
+          dynamicPostsContainer.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              ${postsHTML}
+            </div>
+          `;
+        } else {
+          throw new Error(result.error || '加载失败');
+        }
+      } catch (error) {
+        console.error('加载文章失败:', error);
+        dynamicPostsContainer.innerHTML = `
+          <div class="rounded-lg bg-red-50 p-4 text-red-800 dark:bg-red-900 dark:text-red-200">
+            <p>加载失败: ${error.message}</p>
+          </div>
+        `;
+      } finally {
+        isLoading = false;
+        loadMoreBtn.textContent = '重新加载';
+        loadMoreBtn.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .wow {
+    visibility: hidden;
+  }
+  
+  .wow.fadeInUp {
+    animation: fadeInUp 1s ease-in-out;
+    visibility: visible;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
