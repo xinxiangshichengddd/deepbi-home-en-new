@@ -1,0 +1,122 @@
+---
+const testimonials = [
+  {
+    authorName: 'James S.',
+    authorRole: 'Kitchen Niche Seller',
+    image: '/assets/testimonials/author-01.jpg',
+    message:
+      `"DeepBI helped me cut my ACOS by 34% in just three weeks. The AI found keywords I never considered but are now my top converters."`,
+  },
+  {
+    authorName: 'Michelle K.',
+    authorRole: 'Beauty Brand Owner',
+    image: '/assets/testimonials/author-02.jpg',
+    message:
+      `"I was spending hours each week managing my Amazon ads with minimal results. DeepBI's automation saved me time and increased my sales by 52%."`,
+  },
+  {
+    authorName: 'David L.',
+    authorRole: 'Sports Equipment Seller',
+    image: '/assets/testimonials/author-03.jpg',
+    message:
+      `"As a busy 7-figure seller, I needed something that just works without constant oversight. DeepBI's automation is exactly what I was looking for."`,
+  },
+  {
+    authorName: 'Sarah M.',
+    authorRole: 'Home & Garden Seller',
+    image: '/assets/testimonials/author-01.jpg',
+    message:
+      `"The competitor targeting feature is incredible. DeepBI identified ASINs I never thought to target, and they're now driving 40% of my sales."`,
+  },
+  {
+    authorName: 'Robert T.',
+    authorRole: 'Electronics Seller',
+    image: '/assets/testimonials/author-02.jpg',
+    message:
+      `"DeepBI's budget optimization saved my business. It automatically shifted spend from underperforming campaigns to winners, boosting my ROI by 65%."`,
+  },
+  {
+    authorName: 'Lisa W.',
+    authorRole: 'Fashion Brand Owner',
+    image: '/assets/testimonials/author-03.jpg',
+    message:
+      `"The performance analytics are game-changing. I finally understand what's working and why. My ACOS dropped from 45% to 28% in two months."`,
+  },
+];
+---
+
+<section id="testimonials" class="py-20 md:py-[120px] bg-gray-1 dark:bg-dark-2 overflow-hidden">
+  <div class="container px-4">
+    <div class="flex flex-wrap justify-center -mx-4">
+      <div class="w-full px-4">
+        <div class="mx-auto mb-[60px] max-w-[485px] text-center">
+          <span class="mb-2 block text-lg font-semibold text-primary">
+            Testimonials
+          </span>
+          <h2 class="mb-3 text-3xl font-bold leading-[1.2] text-dark dark:text-white sm:text-4xl md:text-[40px]">
+            What Real Sellers Say
+          </h2>
+          <p class="text-base text-body-color dark:text-dark-6">
+            Lower ACOS. Higher sales. Less stress. See how DeepBI transforms Amazon advertising for sellers worldwide.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap -mx-4">
+      {
+        testimonials.map((testimonial) => (
+          <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+            <div class="ud-single-testimonial wow fadeInUp mb-12 bg-white p-8 shadow-testimonial dark:bg-dark dark:shadow-none lg:px-5 xl:px-8" data-wow-delay=".1s">
+              <div class="ud-testimonial-ratings mb-3 flex items-center">
+                <span class="text-[#fbb040]">
+                  <svg width="18" height="16" viewBox="0 0 18 16" class="fill-current">
+                    <path d="M9.09815 0.361679L11.1054 6.06601H17.601L12.3459 9.59149L14.3532 15.2958L9.09815 11.7703L3.84309 15.2958L5.85035 9.59149L0.595291 6.06601H7.0909L9.09815 0.361679Z" />
+                  </svg>
+                </span>
+                <span class="text-[#fbb040]">
+                  <svg width="18" height="16" viewBox="0 0 18 16" class="fill-current">
+                    <path d="M9.09815 0.361679L11.1054 6.06601H17.601L12.3459 9.59149L14.3532 15.2958L9.09815 11.7703L3.84309 15.2958L5.85035 9.59149L0.595291 6.06601H7.0909L9.09815 0.361679Z" />
+                  </svg>
+                </span>
+                <span class="text-[#fbb040]">
+                  <svg width="18" height="16" viewBox="0 0 18 16" class="fill-current">
+                    <path d="M9.09815 0.361679L11.1054 6.06601H17.601L12.3459 9.59149L14.3532 15.2958L9.09815 11.7703L3.84309 15.2958L5.85035 9.59149L0.595291 6.06601H7.0909L9.09815 0.361679Z" />
+                  </svg>
+                </span>
+                <span class="text-[#fbb040]">
+                  <svg width="18" height="16" viewBox="0 0 18 16" class="fill-current">
+                    <path d="M9.09815 0.361679L11.1054 6.06601H17.601L12.3459 9.59149L14.3532 15.2958L9.09815 11.7703L3.84309 15.2958L5.85035 9.59149L0.595291 6.06601H7.0909L9.09815 0.361679Z" />
+                  </svg>
+                </span>
+                <span class="text-[#fbb040]">
+                  <svg width="18" height="16" viewBox="0 0 18 16" class="fill-current">
+                    <path d="M9.09815 0.361679L11.1054 6.06601H17.601L12.3459 9.59149L14.3532 15.2958L9.09815 11.7703L3.84309 15.2958L5.85035 9.59149L0.595291 6.06601H7.0909L9.09815 0.361679Z" />
+                  </svg>
+                </span>
+              </div>
+              <div class="ud-testimonial-content mb-6">
+                <p class="text-base tracking-wide text-body-color dark:text-dark-6">
+                  {testimonial.message}
+                </p>
+              </div>
+              <div class="ud-testimonial-info flex items-center">
+                <div class="ud-testimonial-image mr-5">
+                  <img src={testimonial.image} alt="author" />
+                </div>
+                <div class="ud-testimonial-meta">
+                  <h4 class="text-sm font-semibold text-dark dark:text-white">
+                    {testimonial.authorName}
+                  </h4>
+                  <p class="text-xs text-body-color dark:text-dark-6">
+                    {testimonial.authorRole}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
